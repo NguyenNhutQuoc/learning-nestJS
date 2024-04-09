@@ -37,4 +37,12 @@ export class User {
   @JoinColumn()
   @Field(() => Profile, { nullable: true })
   profile: Profile;
+
+  @Column({ default: true })
+  @Field(() => Boolean)
+  isActive: boolean;
+
+  @Column({ default: false })
+  @Field(() => Boolean)
+  isAdmin: boolean;
 }

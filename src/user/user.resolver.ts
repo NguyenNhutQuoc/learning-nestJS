@@ -15,6 +15,7 @@ import { UserListResult } from './dto/list-user-result';
 import { UserSetting } from 'src/user-settings/entities/user-setting.entity';
 import { DataLoaderService } from 'src/common/service/dataloader.service';
 import { Profile } from 'src/profile/entities/profile.entity';
+import { ParseUUIDPipe, UsePipes, ValidationPipe } from '@nestjs/common';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -31,7 +32,7 @@ export class UserResolver {
   }
 
   @Query(() => User, { name: 'FindById' })
-  findOne(@Args('id', { type: () => ID }) id: string) {
+  findOne(@Args('id', { type: () => ID }, new ParseUUIDPipe()) id: string) {
     return this.userService.findBy({ id });
   }
 

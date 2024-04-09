@@ -9,6 +9,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { config } from 'dotenv';
 import { UserSettingsModule } from './user-settings/user-settings.module';
 import { ProfileModule } from './profile/profile.module';
+import { AppDataSource } from './data/data-source';
+
 config();
 
 @Module({
@@ -20,19 +22,7 @@ config();
       context: ({ req }) => ({ req }),
     }),
     TypeOrmModule.forRoot({
-      type: 'mssql',
-      host: 'localhost',
-      port: 1433,
-      username: process.env.MSSQL_USERNAME,
-      password: process.env.MSSQL_PASSWORD,
-      database: 'simple-nestjs-graphql',
-      entities: ['dist/**/*.entity.{ts,js}'],
-      synchronize: true,
-      logging: true,
-      options: {
-        encrypt: true,
-        trustServerCertificate: true,
-      },
+      ...AppDataSource.options,
     }),
     UserModule,
     UserSettingsModule,
