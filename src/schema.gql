@@ -1,0 +1,93 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Profile {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  gender: String
+  age: Int!
+  phoneNumber: String!
+  email: String!
+  address: String!
+  user: User!
+}
+
+type UserSetting {
+  id: ID!
+  name: String!
+  receiveEmails: Boolean!
+  receivePushNotifications: Boolean!
+  receiveSmsNotifications: Boolean!
+  receiveTextMessages: Boolean!
+  receiveVoiceMessages: Boolean!
+  user: User!
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  password: String!
+  userSettings: [UserSetting!]!
+  profile: Profile
+}
+
+type UserListResult {
+  data: [User]
+  totalCount: Float!
+  pageSize: Float!
+  pageNumber: Float!
+  orderBy: String!
+}
+
+type Query {
+  users: [User!]!
+  FindById(id: ID!): User!
+  FindByName(name: String): [User!]!
+  FindByRequest(request: GetUserRequest!): UserListResult!
+  userSettings: [UserSetting!]!
+}
+
+input GetUserRequest {
+  pageSize: Int = 10
+  pageIndex: Int = 1
+  orderBy: String! = "+id"
+  id: String
+  name: String
+  email: String
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
+  createUserSetting(createUserSettingInput: CreateUserSettingInput!): UserSetting!
+  createProfile(createProfileInput: CreateProfileInput!): Profile!
+}
+
+input CreateUserInput {
+  name: String!
+  email: String!
+  password: String!
+}
+
+input CreateUserSettingInput {
+  name: String!
+  receiveEmails: Boolean! = true
+  receivePushNotifications: Boolean! = true
+  receiveSmsNotifications: Boolean! = true
+  receiveTextMessages: Boolean! = true
+  receiveVoiceMessages: Boolean! = true
+  userId: ID!
+}
+
+input CreateProfileInput {
+  firstName: String!
+  lastName: String!
+  age: Int!
+  gender: String!
+  phoneNumber: String!
+  email: String!
+  address: String!
+  userId: ID!
+}
