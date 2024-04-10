@@ -23,7 +23,7 @@ config();
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       playground: true,
-      context: ({ req }) => ({ req }),
+      context: ({ req, res }) => ({ req, res }),
     }),
     TypeOrmModule.forRoot({
       ...AppDataSource.options,

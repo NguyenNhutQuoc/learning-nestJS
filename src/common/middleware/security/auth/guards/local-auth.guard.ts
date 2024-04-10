@@ -31,7 +31,6 @@ export class LocalAuthGuard extends AuthGuard('local') {
       request.body.username,
       request.body.password,
     );
-    console.log('user', user);
     if (!user) {
       throw new UnauthorizedException();
     }

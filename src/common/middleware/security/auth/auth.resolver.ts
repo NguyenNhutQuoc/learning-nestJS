@@ -15,10 +15,9 @@ export class AuthResolver {
   async signIn(
     @Args('username') username: string,
     @Args('password') password: string,
-    @Context() req: any,
+    @Context() context: any,
   ): Promise<any> {
-    console.log('req', req.req.user);
-    return req.req.user;
+    return context.req.user;
   }
 
   @UseGuards(GqlAuthGuard, RolesGuard)
