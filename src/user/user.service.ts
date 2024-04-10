@@ -17,6 +17,7 @@ export class UserService extends BaseService<User> {
   ) {
     super(userRepository);
   }
+
   async create(createUserInput: CreateUserInput) {
     const newUser = this.userRepository.create({
       name: createUserInput.name,
@@ -45,6 +46,11 @@ export class UserService extends BaseService<User> {
     if (request.email) {
       where.email = request.email;
     }
+    if (request.password) {
+      where.password = request.password;
+    }
+
+    console.log(request);
 
     const skip = (request.pageIndex - 1) * request.pageSize;
     return this.findAllBy(

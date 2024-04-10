@@ -10,6 +10,10 @@ import { config } from 'dotenv';
 import { UserSettingsModule } from './user-settings/user-settings.module';
 import { ProfileModule } from './profile/profile.module';
 import { AppDataSource } from './data/data-source';
+import { AuthModule } from './common/middleware/security/auth/auth.module';
+import { Profile } from './profile/entities/profile.entity';
+import { UserSetting } from './user-settings/entities/user-setting.entity';
+import { User } from './user/entities/user.entity';
 
 config();
 
@@ -27,6 +31,8 @@ config();
     UserModule,
     UserSettingsModule,
     ProfileModule,
+    AuthModule,
+    TypeOrmModule.forFeature([User, UserSetting, Profile]),
   ],
   controllers: [AppController],
   providers: [AppService],

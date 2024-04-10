@@ -45,4 +45,7 @@ export class User {
   @Column({ default: false })
   @Field(() => Boolean)
   isAdmin: boolean;
+
+  @Field(() => String)
+  access_token: string;
 }

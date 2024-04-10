@@ -45,19 +45,20 @@ export class BaseService<T> {
     skip?: number,
     take?: number,
   ): Promise<ListResult<T>> {
-    const orderBy = this.handleSort(order);
+    let orderBy = {};
+    if (order) {
+      orderBy = this.handleSort(order);
+    }
     console.log(orderBy);
     const queryBuilder = this.createQueryBuilder(where, orderBy, skip, take);
 
-    const result = this.mapToListResult(
+    return this.mapToListResult(
       await queryBuilder.getMany(),
       await queryBuilder.getCount(),
       take || 10,
       index || 1,
       order || '+id',
     );
-
-    return result;
   }
 
   private createQueryBuilder(
@@ -145,11 +146,10 @@ export class BaseService<T> {
     where[idKey] = In(ids);
     if (relations) {
       if (this.showRelations.has(relations)) {
-        const data = await this.repository.find({
+        return await this.repository.find({
           where,
           relations: [relations],
         });
-        return data;
       }
     } else {
       return await this.repository.find({

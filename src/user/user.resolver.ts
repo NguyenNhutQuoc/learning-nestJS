@@ -15,19 +15,38 @@ import { UserListResult } from './dto/list-user-result';
 import { UserSetting } from 'src/user-settings/entities/user-setting.entity';
 import { DataLoaderService } from 'src/common/service/dataloader.service';
 import { Profile } from 'src/profile/entities/profile.entity';
-import { ParseUUIDPipe, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+  ParseUUIDPipe,
+  UseGuards,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
+import { GqlAuthGuard } from '../common/middleware/security/auth/guards/jwt-auth.guard';
+import { CurrentUser, Roles } from '../decorators/auth.decorator';
+import { RolesGuard } from '../common/middleware/security/auth/guards/roles.guard';
 
 @Resolver(() => User)
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
   @Mutation(() => User)
-  createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
+  @UsePipes(new ValidationPipe({ transform: true }))
+  @UseGuards(GqlAuthGuard)
+  @Roles(['admin'])
+  createUser(
+    @CurrentUser() user: User,
+    @Args('createUserInput') createUserInput: CreateUserInput,
+  ) {
+    console.log(user);
     return this.userService.create(createUserInput);
   }
 
+  @UseGuards(GqlAuthGuard, RolesGuard)
+  @Roles(['admin'])
   @Query(() => [User], { name: 'users' })
-  findAll() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  findAll(@CurrentUser() currentUser: User) {
+    console.log(currentUser);
     return this.userService.findAll();
   }
 
