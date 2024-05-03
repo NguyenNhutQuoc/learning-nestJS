@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  app-nestjs-simple:
+    image: nestjs-app
+    ports:
+      - '3000:3000'
+    depends_on:
+      - db-for-nestjs-app
+    networks:
+      - nestjs-network
+
+  db-for-nestjs-app:
+    container_name: db-for-nestjs-app
+    image: db-for-nestjs-app
+    ports:
+      - '1433:1433'
+    volumes:
+      - sql-server-db-data:/var/opt/mssql
+    networks:
+      - nestjs-network
+
+networks:
+  nestjs-network:
+    driver: bridge
+
+volumes:
+  sql-server-db-data:
