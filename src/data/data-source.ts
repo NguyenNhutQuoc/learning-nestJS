@@ -1,6 +1,4 @@
-import 'reflect-metadata';
 import { DataSource } from 'typeorm';
-import * as process from 'node:process';
 import { config } from 'dotenv';
 import { join } from 'path';
 
@@ -16,21 +14,11 @@ export const MSSQL_SERVER_DATA_SOURCE = new DataSource({
   database: process.env.MSSQL_DATABASE,
   synchronize: false,
   logging: true,
-  entities: ['dist/**/*.entity.{ts,js}'],
+  entities: [join(__dirname, '**', '*.entity.{ts,js}')],
   subscribers: [],
   migrations: [join(__dirname, 'migrations', '*.{ts,js}')],
   options: {
     encrypt: true,
     trustServerCertificate: true,
   },
-});
-
-export const MONGO_SERVER_DATA_SOURCE = new DataSource({
-  type: process.env.MONGO_TYPE as any,
-  url: process.env.MONGO_URL,
-  synchronize: false,
-  logging: true,
-  entities: ['dist/**/*.entity.{ts,js}'],
-  subscribers: [],
-  migrations: [join(__dirname, 'migrations', '*.{ts,js}')],
 });
