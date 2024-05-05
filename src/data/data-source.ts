@@ -5,7 +5,7 @@ import { config } from 'dotenv';
 import { join } from 'path';
 
 config();
-console.log(join(__dirname, 'migrations', '*.{ts,js}'));
+console.log('Hello. This my friend');
 export const MSSQL_SERVER_DATA_SOURCE = new DataSource({
   migrationsTableName: 'migrations',
   type: process.env.MSSQL_TYPE as any,
