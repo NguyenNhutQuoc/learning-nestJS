@@ -9,6 +9,8 @@ import { Reflector } from '@nestjs/core';
 export const CurrentUser = createParamDecorator(
   (data: unknown, context: ExecutionContext) => {
     const ctx = GqlExecutionContext.create(context);
+    console.log(ctx.getContext().req.user);
+
     return ctx.getContext().req.user;
   },
 );
