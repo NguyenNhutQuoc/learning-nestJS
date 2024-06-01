@@ -9,8 +9,6 @@ import { Reflector } from '@nestjs/core';
 export const CurrentUser = createParamDecorator(
   (data: unknown, context: ExecutionContext) => {
     const ctx = GqlExecutionContext.create(context);
-    console.log(data);
-    console.log('Test amend commit');
     return ctx.getContext().req.user;
   },
 );
